@@ -65,7 +65,7 @@ suite('Unit Tests', () => {
 
 	})
 
-	test('logic handles grid column placement', () => {
+	test('logic handles invalid grid placement', () => {
 
 		assert.equal(solver.checkRegionPlacement(puzzle2, 1, 1, 2), false, 'checkRegionPlacement should return false with invalid placement')
 

@@ -43,13 +43,14 @@ class SudokuSolver {
 
   checkRegionPlacement(puzzleString, row, column, value) {
 
-	  const verticalStart = (Math.floor(row - 1 / 3) * 3);
-	  const horizontalStart = (Math.floor(column - 1 /3) * 3);
+	  const verticalStart = Math.floor((row - 1) / 3) * 3;
+	  const horizontalStart = Math.floor((column - 1) /3) * 3;
 	  const trueStart = verticalStart * 9 + horizontalStart;
 
-	  for (let start = trueStart; start < (trueStart + 9) * 3; start += 9) {
-	  	for (let i = start; i < start + 3; i++) {
-			if (puzzleString[i] == value) {
+	  for (let i = 0; i < 3; i++) {
+	  	for (let j = 0; j < 3; j++) {
+			const index = trueStart + i * 9 + j;
+			if (puzzleString[index] == value) {
 				return false
 			}
 		}
@@ -58,6 +59,30 @@ class SudokuSolver {
 	  return true
   }
 
+  checkPlacement(puzzleString, row, column, value) {
+
+	  const Region = this.checkRegionPlacement(puzzleString, row, column, value);
+	  const Row = this.checkRowPlacement(puzzleString, row, column, value);
+	  const Col = this.checkColPlacement(puzzleString, row, column, value);
+
+	  if (Col && Row && Region) {
+		  return {valid: true}
+	  }
+
+	  const conflict = [];
+
+	  if (!Row) {
+		  conflict.push('row')
+	  }
+	  if (!Col) {
+		  conflict.push('column');
+	  }
+	  if (!Region) {
+		  conflict.push('region');
+	  }
+	  return {valid: false, conflict: conflict}
+
+  }
   solve(puzzleString) {
     
   }
