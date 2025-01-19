@@ -12,7 +12,7 @@ class SudokuSolver {
 	}
 
 	if (puzzleString.length != 81) {
-		return {result: false, error: 'Expected puzzle to be 81 characters'}
+		return {result: false, error: 'Expected puzzle to be 81 characters long'}
 	}
 
 	return {result: true}
@@ -32,6 +32,9 @@ class SudokuSolver {
   checkColPlacement(puzzleString, row, column, value) {
 
 	for (let i = column - 1; i < puzzleString.length; i += 9) {
+		if (i == (row - 1) * 9 + column - 1) {
+			continue
+		}
         if (puzzleString[i] == value) {
            	return false; 
             }
@@ -50,6 +53,9 @@ class SudokuSolver {
 	  for (let i = 0; i < 3; i++) {
 	  	for (let j = 0; j < 3; j++) {
 			const index = trueStart + i * 9 + j;
+			if (index == (row - 1) * 9 + column - 1) {
+				continue
+			}
 			if (puzzleString[index] == value) {
 				return false
 			}

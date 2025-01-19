@@ -51,7 +51,7 @@ suite('Functional Tests', () => {
 				puzzle: invalid_len_puzzle
 			})
 			.end((err, res) => {
-				assert.equal(res.body.error, 'Expected puzzle to be 81 characters', 'Should respond with an error if incorrect puzzle length')
+				assert.equal(res.body.error, 'Expected puzzle to be 81 characters long', 'Should respond with an error if incorrect puzzle length')
 				done()
 			})
 	})
@@ -176,7 +176,7 @@ suite('Functional Tests', () => {
 				value: 2
 			})
 			.end((err, res) => {
-				assert.equal(res.body.error, 'Expected puzzle to be 81 characters', 'Should respond with an error if puzzle is not 81 charaters long')
+				assert.equal(res.body.error, 'Expected puzzle to be 81 characters long', 'Should respond with an error if puzzle is not 81 charaters long')
 				done()
 			})
 	})
