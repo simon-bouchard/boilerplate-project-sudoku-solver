@@ -21,9 +21,16 @@ class SudokuSolver {
 
   checkRowPlacement(puzzleString, row, column, value) {
 	let start = (row - 1) * 9 
+    const currentIndex = (row - 1) * 9 + (column - 1);
 
-	if ([...(puzzleString.slice(start, start + 9))].some((char) => char == value)) {
-		return false
+	for (let i = start; i < start + 9; i++) {
+		if (i == currentIndex) {
+			continue
+		}
+
+		if (puzzleString[i] == value) {
+			return false
+		}
 	}
 
 	return true
@@ -31,10 +38,13 @@ class SudokuSolver {
 
   checkColPlacement(puzzleString, row, column, value) {
 
+	const currentIndex = (row - 1) * 9 + (column - 1);
+
 	for (let i = column - 1; i < puzzleString.length; i += 9) {
-		if (i == (row - 1) * 9 + column - 1) {
+		if (i == currentIndex) {
 			continue
 		}
+
         if (puzzleString[i] == value) {
            	return false; 
             }
@@ -49,11 +59,12 @@ class SudokuSolver {
 	  const verticalStart = Math.floor((row - 1) / 3) * 3;
 	  const horizontalStart = Math.floor((column - 1) /3) * 3;
 	  const trueStart = verticalStart * 9 + horizontalStart;
+	  const currentIndex = (row - 1) * 9 + (column - 1);
 
 	  for (let i = 0; i < 3; i++) {
 	  	for (let j = 0; j < 3; j++) {
 			const index = trueStart + i * 9 + j;
-			if (index == (row - 1) * 9 + column - 1) {
+			if (index == currentIndex) {
 				continue
 			}
 			if (puzzleString[index] == value) {
