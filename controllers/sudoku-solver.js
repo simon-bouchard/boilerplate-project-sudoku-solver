@@ -98,10 +98,43 @@ class SudokuSolver {
 		  conflict.push('region');
 	  }
 	  return {valid: false, conflict: conflict}
-
   }
+
+  findNextEmpty(puzzleString) {
+	  for (let i = 0; i < puzzleString.length; i++) {
+		  if (puzzleString[i] == '.') {
+			  return i
+		  }
+	  }
+
+	  return null
+  }	
+
   solve(puzzleString) {
-    
+
+	  const empty = this.findNextEmpty(puzzleString)
+	  if (empty === null) {
+   		return puzzleString 
+	  }
+
+	  const row = Math.floor(empty / 9) + 1
+	  const column = empty % 9 + 1
+
+	  for (let i = 1; i < 10; i++) {
+		 if (this.checkPlacement(puzzleString, row, column, i).valid) {
+
+			 const puzzleArray = [...puzzleString];
+			 puzzleArray[empty] = i.toString();
+
+			 const newPuzzleString = this.solve(puzzleArray.join(''))
+			 if (newPuzzleString) {
+				 return newPuzzleString
+			 }
+			 
+		 }
+	  }
+
+	  return false
   }
 }
 

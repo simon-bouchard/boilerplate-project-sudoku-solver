@@ -51,7 +51,12 @@ module.exports = function (app) {
 			return res.json({error: validate.error})
 		}
 
-		return res.json({solution: validate.solution})
+		const solution = solver.solve(puzzle)
+		if (!solution) {
+			return res.json({error: 'Puzzle cannot be solved'})
+		}
+
+		return res.json({solution: solution})
 
     });
 

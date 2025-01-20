@@ -8,7 +8,9 @@ import { puzzlesAndSolutions} from '../controllers/puzzle-strings.js';
 suite('Unit Tests', () => {
 
 	let puzzle = puzzlesAndSolutions[0][0]
+	let solution = puzzlesAndSolutions[0][1]
 	let puzzle2 = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+	let invalidPuzzle = '..9..5.1.85.4....2432......1...69.83.9.3..46.62.71...9.2....1945....4.37.4.3..6..'
 
 	test('Logic handles a valid puzzle string of 81 characters', () => {
 		
@@ -68,6 +70,24 @@ suite('Unit Tests', () => {
 	test('logic handles invalid grid placement', () => {
 
 		assert.equal(solver.checkRegionPlacement(puzzle2, 1, 1, 2), false, 'checkRegionPlacement should return false with invalid placement')
+
+	})
+
+	test('Valid puzzle strings pass the solver', () => {
+
+		assert.isOk(solver.solve(puzzle2), 'solver should not return false when given valid puzzle')
+
+	})
+
+	test('Invalid puzzle strings fail the solver', () => {
+
+		assert.strictEqual(solver.solve(invalidPuzzle), false, 'solver should return false when given invalid puzzle')
+
+	})
+
+	test('Solver retruns the expected solution for an incomplete puzzle', () => {
+
+		assert.equal(solver.solve(puzzle), solution, 'solver should return false when given invalid puzzle')
 
 	})
 

@@ -2,18 +2,32 @@ const chai = require("chai");
 const chaiHttp = require('chai-http');
 const assert = chai.assert;
 const server = require('../server');
+import { puzzlesAndSolutions } from '../controllers/puzzle-strings.js';
 
 chai.use(chaiHttp);
 
 suite('Functional Tests', () => {
 
 	const puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..'
+	const puzzle2 = puzzlesAndSolutions[0][0];
+	const solution2 = puzzlesAndSolutions[0][1]
 	const invalid_char_puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6.f'
 	const invalid_len_puzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6...'
+	const invalidPuzzle = '..9..5.1.85.4....2432.42.1...69.83.9..3...6.62.71.4..9......1945....4.37.4.3..6..'
 
 	test('Solve puzzle with valid puzzle string', (done) => {
 
-		assert.equal(false, true, '')
+		chai
+			.request(server)
+			.keepOpen()
+			.post('/api/solve')
+			.send({
+				puzzle: puzzle2
+			})
+			.end((err, res) => {
+				assert.equal(res.body.solution, solution2, 'Should respond with the expected solution')
+				done()
+			})
 
 	})
 
@@ -61,8 +75,11 @@ suite('Functional Tests', () => {
 			.request(server)
 			.keepOpen()
 			.post('/api/solve')
+			.send({
+				puzzle: invalidPuzzle
+			})
 			.end((err, res) => {
-				assert.equal(true, false, 'Should respond with an error if missing puzzle')
+				assert.equal(res.body.error, 'Puzzle cannot be solved', 'Should respond with an error if puzzle is not solvable')
 				done()
 			})
 	})
